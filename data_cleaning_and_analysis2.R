@@ -1,28 +1,28 @@
-# Set the working directory (replace with your project folder path)
+
 setwd("C:/Users/zemen/OneDrive/Documents/MATH470/Diabetes_Interpolation_Project2B")
 
-# Verify your working directory
+
 getwd()
 
 library(ggplot2)
 library(dplyr)
 
-# Load the CSV file
+
 diabetes <- read.csv("diabetes.csv")
 
-# Preview the first few rows
+
 head(diabetes)
 
-# Get a summary of the dataset
+
 summary(diabetes)
 
-# Check for missing values
+
 sapply(diabetes, function(x) sum(is.na(x)))
 
-# If there are placeholder zeros, replace them with NA
+
 diabetes[diabetes == 0] <- NA
 
-# Verify the changes
+
 sapply(diabetes, function(x) sum(is.na(x)))
 
 save.image(file = "diabetes_workspace2.RData")
@@ -34,14 +34,14 @@ gc()  # Trigger garbage collection
 
 install.packages('tidyverse')
 
-# Load necessary libraries
+
 library(tidyverse)  # For data manipulation and visualization
 
-# Set working directory to project folder
+
 setwd("C:/Users/zemen/OneDrive/Documents/MATH470/Diabetes_Interpolation_Project2B")
 
-# Load the diabetes dataset
-diabetes <- read.csv("diabetes.csv")  # Replace with the correct file path
+
+diabetes <- read.csv("diabetes.csv")  
 
 # Quick look at the structure and summary of the dataset
 str(diabetes)
@@ -61,24 +61,23 @@ print(missing_values)
 # Replace 0s in BloodPressure with NA
 diabetes$BloodPressure[diabetes$BloodPressure == 0] <- NA
 
-# Confirm the changes
+
 print(paste("Number of missing values in BloodPressure:", sum(is.na(diabetes$BloodPressure))))
 
 
 # Replace 0s in BloodPressure with NA
 diabetes$BloodPressure[diabetes$BloodPressure == 0] <- NA
 
-# Prepare data for visualization
+
 visualization_data <- data.frame(
   Index = 1:length(diabetes$BloodPressure),
   BloodPressure = ifelse(is.na(diabetes$BloodPressure), -5, diabetes$BloodPressure), # Temporarily assign -5 to missing values
   ValueStatus = ifelse(is.na(diabetes$BloodPressure), "Missing", "Present")          # Mark missing or present
 )
 
-# Load ggplot2 library
 library(ggplot2)
 
-# Create the plot
+
 ggplot(visualization_data, aes(x = Index, y = BloodPressure, color = ValueStatus)) +
   geom_point() +
   scale_color_manual(values = c("Missing" = "red", "Present" = "blue")) +
@@ -358,7 +357,7 @@ print(interpolated_values)
 
 
 # Step 1: Load the dataset
-# Explanation: Replace the file path with your actual file location.
+
 diabetes <- read.csv("diabetes.csv")  # Replace with actual path
 
 # Step 2: Replace 0s with NA in the SkinThickness column
@@ -542,20 +541,18 @@ lagrange_with_subset <- function(x_known, y_known, x_missing, num_points = 5) {
 
 
 
-# Extract known indices and values
 x_known <- which(!is.na(diabetes$BloodPressure))
 y_known <- diabetes$BloodPressure[x_known]
 
-# Extract missing indices
+
 x_missing <- which(is.na(diabetes$BloodPressure))
 
-# Apply the interpolation
+
 interpolated_bp <- lagrange_with_subset(x_known, y_known, x_missing, num_points = 5)
 
-# Replace missing values
+
 diabetes$BloodPressure[x_missing] <- interpolated_bp
 
-# Verify changes
 summary(diabetes$BloodPressure)
 
 
@@ -657,3 +654,4 @@ ggplot(visualization_data, aes(x = Index, y = BloodPressure, color = ValueType))
     color = "Value Type"
   ) +
   theme_minimal()
+
